@@ -24,6 +24,7 @@ def crear_tabla():
     - Precio
     - Categoría
     """
+    conexion = None
     
     try:
         conexion = conectar()

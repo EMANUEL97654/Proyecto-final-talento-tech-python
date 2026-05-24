@@ -49,10 +49,10 @@ python main.py
 1. Agregar producto
 2. Mostrar productos
 3. Buscar producto por ID
-4. Buscar producto por nombre
-5. Buscar producto por categoría
-6. Actualizar producto
-7. Eliminar producto
+4. Buscar producto por categoria
+5. Buscar producto por nombre
+6. Eliminar producto segun ID
+7. Actualizar producto
 8. Reporte de stock bajo
 9. Salir
 ⚠️ Manejo de errores

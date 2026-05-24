@@ -10,10 +10,21 @@ def agregar_productos():
         cursor.execute("BEGIN TRANSACTION")
         
         nombre_producto = input("Ingrese el nombre del producto: ").capitalize()
+        if nombre_producto == "":
+            print("Error. El nombre no puede estar vacío.")
+            return
+        
         descripcion_producto = input("Ingrese una breve descripcion del producto: ")
         stock_producto = int(input("Ingrese el stock del producto: "))
         categoria_producto = input("Ingrese la categoria del producto: ").capitalize()
         precio_producto = float(input("Ingrese el precio del producto: "))
+        
+        if stock_producto < 0:
+            print("Error: el stock no puede ser negativo. ")
+            return
+
+        if precio_producto <= 0:
+            print("Error: el precio debe ser mayor a 0. ")
         
         cursor.execute("""
                     INSERT INTO productos (nombre, descripcion, cantidad, categoria, precio)
@@ -95,12 +106,20 @@ def buscar_producto_por_categoria():
         conexion = conectar()
         cursor = conexion.cursor()
         cursor.execute("SELECT * FROM productos WHERE categoria = ?",(categoria_producto.capitalize(),))
-        producto = cursor.fetchone()
+        productos = cursor.fetchall()
         
-        if producto:
-            print(f"ID: {producto[0]} | Nombre: {producto[1]} | Cantidad: {producto[3]}")
+        if productos:
+            print(f"\n PRODUCTOS ENCONTRADOS EN LA CATEGORIA {categoria_producto}")
+            for producto in productos:
+                print(
+                    f"ID: {producto[0]} | "
+                    f"Nombre: {producto[1]} | "
+                    f"Cantidad: {producto[3]} | "
+                    f"Precio: {producto[5]} | "
+                )
+            
         else:
-            print("Producto no encontrado.")
+            print("No se encontraron productos en esa categoria.")
     except sqlite3.Error as e:
         print(f"Error: {e}")
     finally:
@@ -112,10 +131,21 @@ def actualizar_productos():
     try:
         id_producto = int(input("Ingrese el id del producto: "))
         nombre_producto = input("Ingrese el nombre del producto: ")
+        if nombre_producto == "":
+            print("ERROR: el nombre no puede estar vacío.")
+            return
         descripcion_producto = input("Ingrese una breve descripcion del producto: ")
         stock_producto = int(input("Ingrese el stock del producto: "))
         categoria_producto = input("Ingrese la categoria del producto: ")
         precio_producto = float(input("Ingrese el precio del producto: "))
+        
+        if stock_producto < 0:
+            print("ERROR: el stock no puede ser negativo.")
+            return
+
+        if precio_producto <= 0:
+            print("ERROR: el precio debe ser mayor a 0.")
+            return    
         
         conexion = conectar()
         cursor = conexion.cursor()
@@ -164,6 +194,7 @@ def eliminar_producto_segun_id():
             confirmacion = input("¿Está seguro que desea eliminar este producto? (s/n): ")
             
             if confirmacion.lower() == 's':
+                cursor.execute("BEGIN TRANSACTION")
                 cursor.execute("DELETE FROM productos WHERE id = ?", (id_producto,))
                 conexion.commit()
                 print("Producto eliminado correctamente.")
@@ -176,6 +207,8 @@ def eliminar_producto_segun_id():
             conexion.rollback()
             print("ERROR: el ID debe ser un numero.")
     except sqlite3.Error as e:
+        if conexion:
+            conexion.rollback()
         print(f"Error: {e}")
     finally:
         if conexion:
