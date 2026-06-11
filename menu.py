@@ -1,3 +1,11 @@
+"""
+Módulo principal del sistema de inventario.
+
+Este módulo contiene el menú interactivo que permite al usuario
+acceder a las distintas funcionalidades del sistema, como agregar,
+consultar, actualizar y eliminar productos almacenados en la base de datos.
+"""
+
 from productos import (
     agregar_productos,
     mostrar_productos,
@@ -10,8 +18,22 @@ from productos import (
 )
 
 def mostrar_menu():
+    
+    """
+    Muestra el menú principal del sistema de inventario y gestiona
+    la interacción con el usuario.
+
+    Permite acceder a las distintas operaciones disponibles:
+    agregar productos, consultar información, actualizar registros,
+    eliminar productos y generar reportes de stock.
+
+    El menú permanece en ejecución hasta que el usuario seleccione
+    la opción de salida o interrumpa el programa manualmente.
+    """
+    
     while True:
         try:
+            # Muestra las opciones disponibles al usuario
             print("\n===== SISTEMA DE INVENTARIO =====")
             print("1. Agregar producto")
             print("2. Mostrar productos")
@@ -23,8 +45,10 @@ def mostrar_menu():
             print("8. Reporte de stock bajo")
             print("9. Salir")
 
+            # Solicita la opción seleccionada
             opcion = input("Seleccione una opción: ").strip()
 
+            # Estructura match-case para ejecutar la acción correspondiente
             match(opcion):
                 case "1":
                     agregar_productos()

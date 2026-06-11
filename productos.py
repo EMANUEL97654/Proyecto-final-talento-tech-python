@@ -1,7 +1,21 @@
+"""
+Módulo de gestión de productos.
+
+Este módulo contiene funciones para realizar operaciones CRUD
+(Crear, Leer, Actualizar y Eliminar) sobre la tabla productos
+de una base de datos SQLite, además de generar reportes de stock.
+"""
+
 import sqlite3
 from database import conectar
 
 def agregar_productos():
+    """
+    Agrega un nuevo producto a la base de datos solicitando los datos al usuario.
+    Realiza validaciones sobre el nombre, stock y precio antes de insertar
+    el registro en la tabla productos.
+    """
+    
     conexion = None
     try:
         conexion = conectar()
@@ -44,6 +58,11 @@ def agregar_productos():
             conexion.close()
 
 def mostrar_productos():
+    """
+    Muestra todos los productos almacenados en la base de datos,
+    incluyendo ID, nombre, cantidad, categoría y precio.
+    """
+    
     conexion = None
     try:
         conexion = conectar()
@@ -60,6 +79,12 @@ def mostrar_productos():
             conexion.close()
 
 def buscar_producto_por_id():
+    """
+    Busca un producto en la base de datos utilizando su ID.
+    Si existe, muestra sus datos principales; de lo contrario,
+    informa que el producto no fue encontrado.
+    """
+    
     conexion = None
     try:
         id_producto = int(input("Ingrese el id del producto: "))
@@ -81,6 +106,12 @@ def buscar_producto_por_id():
             conexion.close()
     
 def buscar_producto_por_nombre():
+    """
+    Busca un producto por su nombre.
+    Si encuentra una coincidencia exacta, muestra la información
+    principal del producto.
+    """
+    
     conexion = None
     try:
         nombre_producto = input("Ingrese el nombre del producto: ").strip()
@@ -100,6 +131,11 @@ def buscar_producto_por_nombre():
             conexion.close()
 
 def buscar_producto_por_categoria():
+    """
+    Busca y muestra todos los productos pertenecientes a una
+    categoría específica ingresada por el usuario.
+    """
+    
     conexion = None
     try:
         categoria_producto = input("Ingrese la categoria del producto: ").strip()
@@ -127,6 +163,12 @@ def buscar_producto_por_categoria():
             conexion.close()
         
 def actualizar_productos():
+    """
+    Actualiza los datos de un producto existente utilizando su ID.
+    Solicita los nuevos valores y valida que el stock y el precio
+    sean correctos antes de guardar los cambios.
+    """
+    
     conexion = None
     try:
         id_producto = int(input("Ingrese el id del producto: "))
@@ -175,6 +217,13 @@ def actualizar_productos():
     
 
 def eliminar_producto_segun_id():
+    
+    """
+    Elimina un producto de la base de datos a partir de su ID.
+    Antes de realizar la eliminación solicita confirmación
+    al usuario.
+    """
+    
     conexion = None
     try:
         id_producto = int(input("Ingrese el id del producto a eliminar: "))
@@ -215,6 +264,12 @@ def eliminar_producto_segun_id():
             conexion.close()
     
 def reporte_stock_bajo():
+    """
+    Genera un reporte de productos cuyo stock sea menor o igual
+    al límite indicado por el usuario.
+    Permite identificar productos que requieren reposición.
+    """
+    
     conexion = None
     try:
         limite = int(input("Ingrese el limite de stock: "))
